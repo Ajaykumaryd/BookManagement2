@@ -1,8 +1,6 @@
 package com_Ajaynewbookmanagement.BookManagement2;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class BookRepository {
     private  Map<Integer,Book> bookData=new HashMap<>();
@@ -21,7 +19,9 @@ public class BookRepository {
    }
 
 
-
+    public    List<Book> getAll() {
+      return new ArrayList<>(bookData.values());
+    }
 
 
 }

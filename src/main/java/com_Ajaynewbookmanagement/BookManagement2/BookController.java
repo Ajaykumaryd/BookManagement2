@@ -18,10 +18,9 @@ public class BookController {
 
 
     @PostMapping("/add-new-book")
-    public ResponseEntity<String> addBook(@RequestBody Book book){
-
+    public ResponseEntity<String> addBook(@RequestBody Book book) {
         String str= bookService.addBook(book);
-        return new ResponseEntity<>(str,HttpStatus.CREATED) ;
+        return new ResponseEntity<>(str,HttpStatus.CREATED);
     }
 
 
@@ -35,23 +34,28 @@ public class BookController {
         }
     }
 
-    //
-//    @GetMapping("/get-list-books")
-//    public List<Book> getBooks(){
-//        return new ArrayList<>(bookData.values());
-//    }
+
+    @GetMapping("/get-list-books")
+    public ResponseEntity <List<Book>>  getBooks(){
+        return new ResponseEntity<>(bookService.getBooks(),HttpStatus.OK) ;
+    }
 //
 //    //get api by book name
 //
-//    @GetMapping("/get-book-by-name/{name}")
-//    public Book getBookByName(@PathVariable String name){
+    @GetMapping("/get-book-by-name/{name}")
+    public   ResponseEntity<Book>getBookByName(@PathVariable String name){
+        try {
+            return new ResponseEntity<>(bookService.getBook(name),HttpStatus.OK);
+        }catch(RuntimeException e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
 //       for(Map.Entry<Integer,Book> entry: bookData.entrySet()){
 //           if(entry.getValue().getTitle().equals(name))
 //              return entry.getValue();
 //        }
 //       return null;
-//    }
-//
+    }
+
 //
 //    @PutMapping("/update-book-page")
 //    public Book updatePages(@RequestParam Integer id,@RequestParam Integer pages){

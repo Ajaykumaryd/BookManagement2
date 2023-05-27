@@ -1,5 +1,6 @@
 package com_Ajaynewbookmanagement.BookManagement2;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BookService {
@@ -19,6 +20,20 @@ public class BookService {
     return bookOptional.get();
     }
 
+
+    public List<Book> getBooks() {
+       return  bookRepository.getAll();
+    }
+
+    public Book getBook(String name) throws RuntimeException{
+       List<Book> books= bookRepository.getAll();
+       for(Book book:books){
+           if(book.getTitle().equals(name)){
+               return book;
+           }
+       }
+       throw new RuntimeException("Book name is not found");
+    }
 
 
 }
