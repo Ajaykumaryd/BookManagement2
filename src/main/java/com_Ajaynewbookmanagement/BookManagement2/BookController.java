@@ -1,5 +1,7 @@
 package com_Ajaynewbookmanagement.BookManagement2;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,24 +18,24 @@ public class BookController {
 
 
     @PostMapping("/add-new-book")
-    public String addBook(@RequestBody Book book){
+    public ResponseEntity<String> addBook(@RequestBody Book book){
 
         String str= bookService.addBook(book);
-        return str;
+        return new ResponseEntity<>(str,HttpStatus.CREATED) ;
     }
 
 
     @GetMapping("/get-book")
-    public Book getBook(@RequestParam Integer id) {
-
+    public ResponseEntity<Book>getBook(@RequestParam Integer id) {
         try{
             Book book=bookService.getBook(id);
-            return book;
+            return new ResponseEntity<>(book, HttpStatus.OK);
         }catch (BookIdInvalidException ex){
-            return null;
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
-//
+
+    //
 //    @GetMapping("/get-list-books")
 //    public List<Book> getBooks(){
 //        return new ArrayList<>(bookData.values());
