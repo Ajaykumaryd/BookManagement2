@@ -26,7 +26,12 @@ public class BookController {
     @GetMapping("/get-book")
     public Book getBook(@RequestParam Integer id) {
 
-        return bookService.getBook(id);
+        try{
+            Book book=bookService.getBook(id);
+            return book;
+        }catch (BookIdInvalidException ex){
+            return null;
+        }
     }
 //
 //    @GetMapping("/get-list-books")
