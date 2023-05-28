@@ -6,6 +6,7 @@ public class BookRepository {
     private  Map<Integer,Book> bookData=new HashMap<>();
 
     public void add(Book book){
+
         bookData.put(book.getId(),book);
     }
 
@@ -20,8 +21,11 @@ public class BookRepository {
 
 
     public    List<Book> getAll() {
-      return new ArrayList<>(bookData.values());
+        return new ArrayList<>(bookData.values());
     }
 
 
+    public void update(Book book) {
+        bookData.put(book.getId(), book);
+    }
 }

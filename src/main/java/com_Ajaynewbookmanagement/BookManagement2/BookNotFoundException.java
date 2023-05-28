@@ -1,7 +1,7 @@
 package com_Ajaynewbookmanagement.BookManagement2;
 
-public class BookIdInvalidException extends RuntimeException{
-    public BookIdInvalidException(Integer id )
+public class BookNotFoundException extends RuntimeException{
+    public BookNotFoundException(Integer id )
     {
         super("Book id is invalid"+id);
     }

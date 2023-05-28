@@ -12,10 +12,10 @@ public class BookService {
     return "book added with id "+ book.getId();
     }
 
-    public Book getBook(Integer id) throws BookIdInvalidException {
+    public Book getBook(Integer id) throws BookNotFoundException {
     Optional<Book> bookOptional=bookRepository.getById(id);
     if(bookOptional.isEmpty()){
-       throw new BookIdInvalidException(id);
+       throw new BookNotFoundException(id);
     }
     return bookOptional.get();
     }
@@ -34,6 +34,15 @@ public class BookService {
        }
        throw new RuntimeException("Book name is not found");
     }
+
+
+    public Book updatePages(Integer id, Integer pages) throws BookNotFoundException {
+     Book book=getBook(id);
+     book.setPages(pages);
+     bookRepository.update(book);
+     return book;
+    }
+
 
 
 }

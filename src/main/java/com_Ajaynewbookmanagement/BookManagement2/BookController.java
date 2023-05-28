@@ -4,10 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class BookController {
@@ -19,7 +17,8 @@ public class BookController {
 
     @PostMapping("/add-new-book")
     public ResponseEntity<String> addBook(@RequestBody Book book) {
-        String str= bookService.addBook(book);
+        String str;
+        str = bookService.addBook(book);
         return new ResponseEntity<>(str,HttpStatus.CREATED);
     }
 
@@ -29,7 +28,7 @@ public class BookController {
         try{
             Book book=bookService.getBook(id);
             return new ResponseEntity<>(book, HttpStatus.OK);
-        }catch (BookIdInvalidException ex){
+        }catch (BookNotFoundException ex){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
@@ -39,9 +38,7 @@ public class BookController {
     public ResponseEntity <List<Book>>  getBooks(){
         return new ResponseEntity<>(bookService.getBooks(),HttpStatus.OK) ;
     }
-//
-//    //get api by book name
-//
+
     @GetMapping("/get-book-by-name/{name}")
     public   ResponseEntity<Book>getBookByName(@PathVariable String name){
         try {
@@ -57,27 +54,22 @@ public class BookController {
     }
 
 //
-//    @PutMapping("/update-book-page")
-//    public Book updatePages(@RequestParam Integer id,@RequestParam Integer pages){
-//      Book book=bookData.get(id);
-//      book.setPages(pages);
-//      bookData.put(id,book);
-//      return book;
-//    }
-//
-////    @PutMapping("/update-book-page/{id}") //update-book-pages/1?pages=500
-////    public Book updatePages(@PathVariable Integer id,@RequestParam Integer pages){
-////        Book book=bookData.get(id);
-////        book.setPages(pages);
-////        bookData.put(id,book);
-////        return book;
-////    }
-//
-//      @DeleteMapping("delete-book/{id}")
-//      public String deleteBook(@PathVariable Integer id){
-//        bookData.remove(id);
-//        return "deleted id is"+id;
-//      }
+    @PutMapping("/update-book-page")
+    public ResponseEntity<Book> updatePages(@RequestParam Integer id,@RequestParam Integer pages){
+        try {
+               Book book=bookService.updatePages(id,pages);
+               return new ResponseEntity<>(book,HttpStatus.CREATED);
+        }catch (BookNotFoundException e){
+             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+      @DeleteMapping("delete-book/{id}")
+      public String deleteBook(@PathVariable Integer id){
+        bookData.remove(id);
+        return "deleted id is"+id;
+      }
 
 }
 
